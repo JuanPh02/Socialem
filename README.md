@@ -4,7 +4,7 @@
 
 Se requiere implementar una Red Social (WEB/MOBILE) que pueda mostrar a todos los miembros de la organización los reconocimientos hechos a los empleados por sus propios compañeros de trabajo o superiores. Este reconocimiento se evidencia por medio dela asignación de estrellas.
 
-# IDE:
+## IDE:
 * [Android Studio](https://developer.android.com/studio) with [JAVA](https://www.java.com/es/)
 
 ## Desarrollada por:
