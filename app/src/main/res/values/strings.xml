@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Socialem</string>
-    <string name="login_hello">Ingresa a tu cuenta de <b>Socialem</b></string>
+    <string name="login_hello">Ingresa a tu cuenta de Socialem</string>
     <string name="email_hint">Ingresa tu correo electrónico</string>
     <string name="password_hint">Ingresa tu contraseña</string>
+    <string name="forget_password">¿Olvidaste tu contraseña?</string>
+    <string name="hello_again">¡HOLA DE NUEVO!</string>
+    <string name="register">REGISTRO </string>
+    <string name="politica">Aceptar terminos &amp; condiciones &amp; politica de privacidad</string>
 </resources>
