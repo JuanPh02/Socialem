@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager2.setAdapter(new LoginAdapter(getSupportFragmentManager(), getLifecycle()));
+
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {

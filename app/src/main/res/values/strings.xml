@@ -7,4 +7,5 @@
     <string name="hello_again">¡HOLA DE NUEVO!</string>
     <string name="register">REGISTRO </string>
     <string name="politica">Aceptar terminos &amp; condiciones &amp; politica de privacidad</string>
+    <string name="app_name_uppercase">SOCIALEM</string>
 </resources>
