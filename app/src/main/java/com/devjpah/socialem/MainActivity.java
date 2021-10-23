@@ -1,5 +1,6 @@
 package com.devjpah.socialem;
 
+import androidx.annotation.Dimension;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -7,10 +8,16 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
+import android.util.Size;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TabWidget;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
+import nl.joery.animatedbottombar.BadgeView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Badges
-        animatedBottomBar.setBadgeAtTabIndex(0, new AnimatedBottomBar.Badge());
+        animatedBottomBar.setBadgeAtTabIndex(0, new AnimatedBottomBar.Badge("3", getResources().getColor(R.color.accent), getResources().getColor(R.color.primary_light), 20));
     }
 
     private void conectar() {
