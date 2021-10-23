@@ -8,4 +8,6 @@
     <string name="register">REGISTRO </string>
     <string name="politica">Aceptar terminos &amp; condiciones &amp; politica de privacidad</string>
     <string name="app_name_uppercase">SOCIALEM</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
