@@ -7,20 +7,21 @@
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="0dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:elevation="0dp"
             android:background="@color/secondary_light"
+            android:elevation="0dp"
+            android:minHeight="?attr/actionBarSize"
             android:theme="@style/ToolbarColored"
             app:menu="@menu/toolbar_menu">
 
@@ -31,13 +32,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_name_uppercase"
+                    android:layout_centerVertical="true"
                     android:fontFamily="@font/noto_sans"
-                    android:textColor="@color/primary_text"
                     android:letterSpacing=".2"
+                    android:text="@string/app_name_uppercase"
+                    android:textColor="@color/primary_text"
                     android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:layout_centerVertical="true" />
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
@@ -48,7 +49,12 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/animated_bottom_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <nl.joery.animatedbottombar.AnimatedBottomBar
         android:id="@+id/animated_bottom_bar"
