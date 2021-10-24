@@ -7,15 +7,16 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/story_outline"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         app:cardBackgroundColor="@color/primary_dark"
-        app:cardCornerRadius="42dp"
+        app:cardCornerRadius="422dp"
+        android:layout_margin="4dp"
         android:layout_gravity="center">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             app:cardCornerRadius="40dp"
             android:layout_gravity="center">
 
