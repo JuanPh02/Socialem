@@ -8,20 +8,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapter.MyViewHolder> {
+public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapter.PublicationsViewHolder> {
 
-    private List<Publication>  publications;
-    private Context context;
-    private OnItemClickListener onItemClickListener;
+    List<Publication> publications;
+    Context context;
 
     public PublicationsAdapter(List<Publication> publications, Context context) {
         this.publications = publications;
@@ -30,25 +29,14 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PublicationsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.publication_item, parent, false);
-        return new MyViewHolder(view, onItemClickListener);
+        return new PublicationsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holders, int position) {
-        final MyViewHolder holder = holders;
-        Publication publication = publications.get(position);
-
-        //holder.progressBar.setVisibility(View.GONE);
-        holder.progressBar.setVisibility(View.INVISIBLE);
-
-        holder.tvAuthor.setText(publication.getAuthor());
-        holder.tvDateCreated.setText(publication.getDateCreated());
-        holder.tvDescription.setText(publication.getDescription());
-        holder.imgProfile.setImageResource(R.drawable.avatar_man);
-        holder.imgPublication.setImageResource(R.drawable.avatar_woman);
-
+    public void onBindViewHolder(@NonNull PublicationsViewHolder holder, int position) {
+        holder.assignData(publications.get(position));
     }
 
     @Override
@@ -56,41 +44,49 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
         return publications.size();
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class PublicationsViewHolder extends RecyclerView.ViewHolder {
 
         ProgressBar progressBar;
         CircleImageView imgProfile;
         TextView tvAuthor, tvDateCreated, tvDescription;
         ImageView imgPublication;
         ImageButton imgbLikedPublication, imgbComment;
-        OnItemClickListener onItemClickListener;
 
-        public MyViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
+        public PublicationsViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            itemView.setOnClickListener(this);
             progressBar = itemView.findViewById(R.id.progress_load);
             imgProfile = itemView.findViewById(R.id.img_profile);
             tvAuthor = itemView.findViewById(R.id.tv_author);
             tvDateCreated = itemView.findViewById(R.id.tv_date_created);
             tvDescription = itemView.findViewById(R.id.tv_description);
             imgPublication = itemView.findViewById(R.id.img_publication);
-            imgbLikedPublication = itemView.findViewById(R.id.imgb_liked_publication);
+            imgbLikedPublication = itemView.findViewById(R.id.imgb_like);
             imgbComment = itemView.findViewById(R.id.imgb_comment);
-            this.onItemClickListener = this.onItemClickListener;
+
+            //Events
+
+            imgbLikedPublication.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(itemView.getContext(), "Like ", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            imgbComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(itemView.getContext(), "Comment ", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
-        @Override
-        public void onClick(View v) {
-            onItemClickListener.onItemClick(v, getAdapterPosition());
+        public void assignData(Publication publication) {
+            tvAuthor.setText(publication.getAuthor());
+            tvDateCreated.setText(publication.getDateCreated());
+            tvDescription.setText(publication.getDescription());
+            imgProfile.setImageResource(R.drawable.avatar_man);
+            imgPublication.setImageResource(R.drawable.avatar_woman);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 }

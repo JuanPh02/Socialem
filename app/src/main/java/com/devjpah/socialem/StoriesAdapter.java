@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -24,18 +26,13 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
     @NonNull
     @Override
     public StoriesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.story_item, parent, false);
-        StoriesViewHolder viewHolder = new StoriesViewHolder(view);
-        return viewHolder;
+        View view = LayoutInflater.from(context).inflate(R.layout.story_item, parent, false);
+        return new StoriesViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull StoriesViewHolder holder, int position) {
-        if(stories.get(position).isSeen()) {
-            //holder.storyOutline.setCardBackgroundColor(context.getResources().getColor(R.color.gray));
-        }
-
+        holder.assignData(stories.get(position));
     }
 
     @Override
@@ -45,12 +42,28 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
 
     public static class StoriesViewHolder extends RecyclerView.ViewHolder{
 
-        private CardView storyOutline;
+        CardView storyOutline;
+        ImageView imgProfile;
+        TextView tvUsername;
 
         public StoriesViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.findViewById(R.id.story_outline);
+            storyOutline = itemView.findViewById(R.id.story_outline);
+            imgProfile = itemView.findViewById(R.id.img_story);
+            tvUsername = itemView.findViewById(R.id.tv_username_story);
+        }
+
+        public void assignData(Story story) {
+            String username = story.getUsername();
+            if(story.isSeen()) {
+                storyOutline.setCardBackgroundColor(itemView.getResources().getColor(R.color.gray_transparent));
+            }
+            if(username.length() > 12) {
+                username = username.substring(0,13);
+                username += "...";
+            }
+            imgProfile.setImageResource(R.drawable.avatar_man);
+            tvUsername.setText(username);
         }
     }
-
 }

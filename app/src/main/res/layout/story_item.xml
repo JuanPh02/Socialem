@@ -21,18 +21,22 @@
             android:layout_gravity="center">
 
             <ImageView
+                android:id="@+id/img_story"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_foreground"/>
+                android:src="@drawable/avatar_man"/>
 
         </androidx.cardview.widget.CardView>
 
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/tv_username_story"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="username"
+        android:textSize="12sp"
+        android:textColor="@color/primary_text"
         android:layout_gravity="center"/>
 
 </LinearLayout>

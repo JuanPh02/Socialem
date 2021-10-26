@@ -41,15 +41,16 @@
 
             <TextView
                 android:id="@+id/tv_author"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Juliana De la rosa"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:layout_marginLeft="10dp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_profile"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@+id/img_profile"
                 app:layout_constraintTop_toTopOf="@+id/img_profile"
                 app:layout_constraintVertical_bias="0.2" />
@@ -83,30 +84,27 @@
 
             <TextView
                 android:id="@+id/tv_description"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Ehhh muy bueno ese camello"
                 android:textColor="@color/primary_text"
                 android:textSize="16sp"
+                app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintEnd_toStartOf="@+id/imgb_like"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_publication" />
 
             <ImageButton
-                android:id="@+id/imgb_liked_publication"
+                android:id="@+id/imgb_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_marginTop="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_liked"
-                app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imgb_comment"
-                app:layout_constraintStart_toEndOf="@+id/tv_description"
                 app:layout_constraintTop_toBottomOf="@+id/img_publication"
                 app:tint="#D20000" />
 
