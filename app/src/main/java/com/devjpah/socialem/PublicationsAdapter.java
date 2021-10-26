@@ -1,6 +1,7 @@
 package com.devjpah.socialem;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
 
     public static class PublicationsViewHolder extends RecyclerView.ViewHolder {
 
+        Context context;
         ProgressBar progressBar;
         CircleImageView imgProfile;
         TextView tvAuthor, tvDateCreated, tvDescription;
@@ -54,6 +56,7 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
 
         public PublicationsViewHolder(@NonNull View itemView) {
             super(itemView);
+            context = itemView.getContext();
             progressBar = itemView.findViewById(R.id.progress_load);
             imgProfile = itemView.findViewById(R.id.img_profile);
             tvAuthor = itemView.findViewById(R.id.tv_author);
@@ -68,14 +71,15 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
             imgbLikedPublication.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Like ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Like ", Toast.LENGTH_SHORT).show();
                 }
             });
 
             imgbComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Comment ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Comment ", Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context,CommentsActivity.class));
                 }
             });
         }

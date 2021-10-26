@@ -164,12 +164,12 @@
                 android:textColor="@color/primary_text"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/imgb_info"
-                app:layout_constraintStart_toEndOf="@+id/imgb_info"
-                app:layout_constraintTop_toTopOf="@+id/imgb_info" />
+                app:layout_constraintBottom_toBottomOf="@+id/imgb_edit"
+                app:layout_constraintStart_toEndOf="@+id/imgb_edit"
+                app:layout_constraintTop_toTopOf="@+id/imgb_edit" />
 
             <ImageButton
-                android:id="@+id/imgb_info"
+                android:id="@+id/imgb_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -196,7 +196,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vw_info" />
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -209,7 +209,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -27,7 +27,7 @@ public class ProfileFragment extends Fragment {
 
     TextView tvTitle, tvCountFollows, tvCountStars, tvName, tvProfession, tvJob, tvLocation;
     ImageView imgProfile;
-    ImageButton imgbFollow, imgbStar, imgbInfo;
+    ImageButton imgbFollow, imgbStar, imgbEdit;
     RecyclerView publicationsProfile;
     List<Publication> publications = new ArrayList<Publication>();
 
@@ -53,7 +53,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        imgbInfo.setOnClickListener(new View.OnClickListener() {
+        imgbEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Edit info", Toast.LENGTH_SHORT).show();
@@ -88,7 +88,7 @@ public class ProfileFragment extends Fragment {
         imgProfile = view.findViewById(R.id.img_profile);
         imgbFollow = view.findViewById(R.id.imgb_follow);
         imgbStar = view.findViewById(R.id.imgb_star);
-        imgbInfo = view.findViewById(R.id.imgb_info);
+        imgbEdit = view.findViewById(R.id.imgb_edit);
         publicationsProfile = view.findViewById(R.id.publications_profile);
     }
 }

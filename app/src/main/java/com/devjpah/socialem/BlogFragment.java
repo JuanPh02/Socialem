@@ -20,14 +20,11 @@ public class BlogFragment extends Fragment {
 
     RecyclerView storiesBar, blogFeed;
     ImageButton btnStar;
-    List<Publication> publications = new ArrayList<Publication>();
-    Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blog, container, false);
-        context = getActivity();
         connectXml(view);
         initFeed();
         initStoriesBar();
@@ -35,6 +32,7 @@ public class BlogFragment extends Fragment {
     }
 
     private void initFeed() {
+        List<Publication> publications = new ArrayList<>();
         List<Comment> comments = new ArrayList<>();
         comments.add(new Comment("eli@h.com", "Que juiciioooooo"));
         //Request Options
@@ -44,9 +42,9 @@ public class BlogFragment extends Fragment {
         publications.add(new Publication("Juan Pablo Hernandez", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
         publications.add(new Publication("Juan Pablo Hernandez", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
         //Create feed
-        PublicationsAdapter adapter = new PublicationsAdapter(publications, context);
+        PublicationsAdapter adapter = new PublicationsAdapter(publications, getContext());
         blogFeed.setAdapter(adapter);
-        blogFeed.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+        blogFeed.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
     }
 
     private void connectXml(View view) {
@@ -56,7 +54,6 @@ public class BlogFragment extends Fragment {
     }
 
     private void initStoriesBar() {
-
         List<Story> stories = new ArrayList<>();
         stories.add(new Story("juanpah",false));
         stories.add(new Story("jumoc",true));
@@ -72,9 +69,9 @@ public class BlogFragment extends Fragment {
         stories.add(new Story("jumoc",false));
         stories.add(new Story("elchacarron32_0w",false));
 
-        StoriesAdapter adapter = new StoriesAdapter(stories, context);
+        StoriesAdapter adapter = new StoriesAdapter(stories, getContext());
         storiesBar.setAdapter(adapter);
-        storiesBar.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+        storiesBar.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         storiesBar.addItemDecoration(new StoriesDecoration(10));
     }
 }
