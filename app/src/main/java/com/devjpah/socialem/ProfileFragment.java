@@ -1,32 +1,28 @@
 package com.devjpah.socialem;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileFragment extends Fragment {
 
     TextView tvTitle, tvCountFollows, tvCountStars, tvName, tvProfession, tvJob, tvLocation;
-    ImageView imgProfile;
+    CircleImageView imgProfile;
     ImageButton imgbFollow, imgbStar, imgbEdit;
     RecyclerView publicationsProfile;
     List<Publication> publications = new ArrayList<Publication>();
@@ -57,6 +53,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Edit info", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(),EditProfileActivity.class));
             }
         });
         return view;
@@ -66,11 +63,11 @@ public class ProfileFragment extends Fragment {
         List<Comment> comments = new ArrayList<>();
         comments.add(new Comment("eli@h.com", "Que juiciioooooo"));
         //Request Options
-        publications.add(new Publication("Juan Pablo Hernandez", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
-        publications.add(new Publication("Juan Pablo Hernandez", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
-        publications.add(new Publication("Juan Pablo Hernandez", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
-        publications.add(new Publication("Juan Pablo Hernandez", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
-        publications.add(new Publication("Juan Pablo Hernandez", "20211020", "media\\fddfs.png", "Trabajando ando Trabajando ando OEEE Trabajando ando Trabajando ando Trabajando ando Trabajando ando Trabajando ando Trabajando ando Trabajando ando Trabajando ando", 34, comments));
+        publications.add(new Publication("Juliana De la rosa", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
+        publications.add(new Publication("Juliana De la rosa", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
+        publications.add(new Publication("Juliana De la rosa", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
+        publications.add(new Publication("Juliana De la rosa", "20211020", "media\\fddfs.png", "Trabajando ando", 34, comments));
+        publications.add(new Publication("Juliana De la rosa", "20211020", "media\\fddfs.png", "Trabajando ando Trabajando ando OEEE Trabajando ando Trabajando ando Trabajando ando Trabajando ando Trabajando ando Trabajando ando Trabajando ando Trabajando ando", 34, comments));
         //Create feed
         PublicationsAdapter adapter = new PublicationsAdapter(publications, getContext());
         publicationsProfile.setAdapter(adapter);
@@ -85,7 +82,7 @@ public class ProfileFragment extends Fragment {
         tvProfession = view.findViewById(R.id.tv_profession);
         tvJob = view.findViewById(R.id.tv_job);
         tvLocation = view.findViewById(R.id.tv_location);
-        imgProfile = view.findViewById(R.id.img_profile);
+        imgProfile = view.findViewById(R.id.img_profile_edit);
         imgbFollow = view.findViewById(R.id.imgb_follow);
         imgbStar = view.findViewById(R.id.imgb_star);
         imgbEdit = view.findViewById(R.id.imgb_edit);

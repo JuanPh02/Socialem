@@ -58,7 +58,7 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
             super(itemView);
             context = itemView.getContext();
             progressBar = itemView.findViewById(R.id.progress_load);
-            imgProfile = itemView.findViewById(R.id.img_profile);
+            imgProfile = itemView.findViewById(R.id.img_profile_edit);
             tvAuthor = itemView.findViewById(R.id.tv_author);
             tvDateCreated = itemView.findViewById(R.id.tv_date_created);
             tvDescription = itemView.findViewById(R.id.tv_description);
@@ -88,7 +88,7 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
             tvAuthor.setText(publication.getAuthor());
             tvDateCreated.setText(publication.getDateCreated());
             tvDescription.setText(publication.getDescription());
-            imgProfile.setImageResource(R.drawable.avatar_man);
+            imgProfile.setImageResource(R.drawable.avatar_woman);
             imgPublication.setImageResource(R.drawable.avatar_woman);
             progressBar.setVisibility(View.INVISIBLE);
         }

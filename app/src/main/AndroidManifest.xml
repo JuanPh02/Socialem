@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SocialemCustom">
-        <activity android:name=".CommentsActivity" android:parentActivityName=".MainActivity" android:theme="@style/Theme.Socialem.ActionBar"/>
+        <activity android:name=".EditProfileActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".CommentsActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.Socialem.ActionBar" />
         <activity android:name=".SplashActivity" />
         <activity
             android:name=".LoginActivity"
