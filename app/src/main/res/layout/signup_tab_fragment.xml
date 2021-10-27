@@ -44,20 +44,20 @@
             android:id="@+id/et_user"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edittext_custom_courner"
             android:drawableStart="@drawable/ic_user"
-            android:hint="@string/email_hint"
+            android:drawablePadding="10dp"
+            android:hint="@string/user_hint"
             android:inputType="textEmailAddress"
             android:paddingHorizontal="10dp"
-            android:drawablePadding="10dp"
             android:paddingVertical="10dp"
-            android:background="@drawable/edittext_custom_courner"
-            app:layout_constraintWidth_percent=".8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.500"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintWidth_percent=".8" />
 
         <TextView
             android:id="@+id/tv_email"
