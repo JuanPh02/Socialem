@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1076467881835",
+    "firebase_url": "https://socialem-to2-default-rtdb.firebaseio.com",
+    "project_id": "socialem-to2",
+    "storage_bucket": "socialem-to2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076467881835:android:303750975d8a40233b5e2e",
+        "android_client_info": {
+          "package_name": "com.devjpah.socialem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076467881835-hb65g5dps8ut21i8dduntp61ov44eql6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs-u7kv0jyABferUPRPhW0SnlY6IfpFWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076467881835-hb65g5dps8ut21i8dduntp61ov44eql6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
