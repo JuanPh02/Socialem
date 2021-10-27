@@ -2,20 +2,20 @@ package com.devjpah.socialem;
 
 public class Comment {
 
-    private String author;
+    private String username;
     private String comment;
 
-    public Comment(String author, String comment) {
-        this.author = author;
+    public Comment(String username, String comment) {
+        this.username = username;
         this.comment = comment;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getComment() {
