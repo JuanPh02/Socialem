@@ -13,6 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LoginTabFragment extends Fragment {
 
     EditText etEmail, etPassword;
@@ -51,7 +56,20 @@ public class LoginTabFragment extends Fragment {
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Login", Toast.LENGTH_SHORT).show();
+                String email = etEmail.getText().toString();
+                String pass = etPassword.getText().toString();
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(getContext(), "Ingreso Exitoso", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Ha ocurrido un error al ingresar", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                //Toast.makeText(getContext(), "Login", Toast.LENGTH_SHORT).show();
             }
         });
 
