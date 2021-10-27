@@ -11,14 +11,23 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class SignupTabFragment extends Fragment {
 
-    EditText etEmail, etPassword;
+    FirebaseFirestore bd = FirebaseFirestore.getInstance();
+    HashMap<String,Object> map = new HashMap<String,Object>();
+    EditText etEmail, etPassword, etUsername;
     RadioGroup rgRol;
     RadioButton radioButton;
     CheckBox cbPolitica;
@@ -35,7 +44,7 @@ public class SignupTabFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int radioId = rgRol.getCheckedRadioButtonId();
                 radioButton = root.findViewById(radioId);
-                Toast.makeText(getContext(), "Selected: " + radioButton.getText(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Selected: " + radioButton.getText(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -43,14 +52,37 @@ public class SignupTabFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String msg = isChecked ? "Checked" : "Not Checked";
-                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Signup", Toast.LENGTH_SHORT).show();
+                String email = etEmail.getText().toString();
+                String pass = etPassword.getText().toString();
+                String user = etUsername.getText().toString();
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(getContext(), "El usuario ha sido creado", Toast.LENGTH_SHORT).show();
+                            map.put("Username",user);
+                            map.put("Email",email);
+                            map.put("Rol",radioButton.getText().toString());
+                            bd.collection("Users").add(map);
+
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Ha ocurrido un error al crear el usuario", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                //Toast.makeText(getContext(), "Signup", Toast.LENGTH_SHORT).show();
+
+
+
             }
         });
 
@@ -63,5 +95,6 @@ public class SignupTabFragment extends Fragment {
         rgRol = root.findViewById(R.id.rg_rol);
         cbPolitica = root.findViewById(R.id.cb_politica);
         btnSignup = root.findViewById(R.id.btn_signup);
+        etUsername = root.findViewById(R.id.et_user);
     }
 }
