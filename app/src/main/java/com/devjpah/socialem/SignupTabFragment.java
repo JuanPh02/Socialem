@@ -71,18 +71,12 @@ public class SignupTabFragment extends Fragment {
                             map.put("Email",email);
                             map.put("Rol",radioButton.getText().toString());
                             bd.collection("Users").add(map);
-
                         }
                         else {
                             Toast.makeText(getContext(), "Ha ocurrido un error al crear el usuario", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
-                //Toast.makeText(getContext(), "Signup", Toast.LENGTH_SHORT).show();
-
-
-
             }
         });
 
