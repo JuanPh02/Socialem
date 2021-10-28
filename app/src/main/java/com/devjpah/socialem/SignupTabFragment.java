@@ -69,10 +69,6 @@ public class SignupTabFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             Toast.makeText(getContext(), "El usuario ha sido creado", Toast.LENGTH_SHORT).show();
-                            /*map.put("Username",user);
-                            map.put("Email",email);
-                            map.put("Rol",radioButton.getText().toString());
-                            bd.collection("Users").add(map);*/
                             cargarPantalla(email, user, rol);
                         }
                         else {
@@ -80,11 +76,6 @@ public class SignupTabFragment extends Fragment {
                         }
                     }
                 });
-
-                //Toast.makeText(getContext(), "Signup", Toast.LENGTH_SHORT).show();
-
-
-
             }
         });
 
@@ -97,8 +88,6 @@ public class SignupTabFragment extends Fragment {
         cargar.putExtra("Username", user);
         cargar.putExtra("Rol", rol);
         startActivity(cargar);
-
-
     }
 
     private void conectar(ViewGroup root) {

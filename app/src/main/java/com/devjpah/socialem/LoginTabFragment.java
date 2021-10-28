@@ -64,6 +64,7 @@ public class LoginTabFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             Toast.makeText(getContext(), "Ingreso Exitoso", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getContext(),MainActivity.class));
                         }
                         else {
                             Toast.makeText(getContext(), "Ha ocurrido un error al ingresar", Toast.LENGTH_SHORT).show();
