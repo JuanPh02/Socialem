@@ -3,6 +3,7 @@ package com.devjpah.socialem;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,8 +13,15 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Date;
+import java.util.HashMap;
 
 import java.util.Calendar;
 
@@ -21,17 +29,28 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
 
+    FirebaseFirestore bd = FirebaseFirestore.getInstance();
+    HashMap<String,Object> map = new HashMap<String,Object>();
     CircleImageView imgProfile;
     TextView tvUsername;
     TextInputEditText etName, etLastname, etBirthday, etProfession, etJob, etLocation;
     TextInputLayout tlName, tlProfession, tlJob, tlBirthday;
     Button btnEdit;
+    String username, email, rol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         connectXml();
+
+        if (this.getIntent().getExtras() != null){
+            Bundle bundle = this.getIntent().getExtras();
+            username = bundle.get("Username").toString();
+            email= bundle.get("Email").toString();
+            rol = bundle.get("Rol").toString();
+            tvUsername.setText(username);
+        }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +64,23 @@ public class EditProfileActivity extends AppCompatActivity {
                 if (etJob.getText().toString().isEmpty()) {
                     tlJob.setError("El campo esta vacio");
                 } else {
-                    Toast.makeText(getApplicationContext(), etName.getText().toString() + " " + etLastname.getText().toString(),Toast.LENGTH_LONG).show();
+                    String name = etName.getText().toString();
+                    String lastname = etLastname.getText().toString();
+                    String fenac = etBirthday.getText().toString();
+                    String profesion = etProfession.getText().toString();
+                    String cargo = etJob.getText().toString();
+                    String localidad = etLocation.getText().toString();
+                    map.put("Username", username);
+                    map.put("Email", email);
+                    map.put("Rol",rol);
+                    map.put("Name", name);
+                    map.put("Lastname", lastname);
+                    map.put("FechaNacimiento", fenac);
+                    map.put("Profession", profesion);
+                    map.put("Job", cargo);
+                    map.put("Location", localidad);
+                    bd.collection("Users").add(map);
+                    startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
                 }
             }
         });

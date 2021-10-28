@@ -1,5 +1,6 @@
 package com.devjpah.socialem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,15 +63,13 @@ public class SignupTabFragment extends Fragment {
                 String email = etEmail.getText().toString();
                 String pass = etPassword.getText().toString();
                 String user = etUsername.getText().toString();
+                String rol = radioButton.getText().toString();
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             Toast.makeText(getContext(), "El usuario ha sido creado", Toast.LENGTH_SHORT).show();
-                            map.put("Username",user);
-                            map.put("Email",email);
-                            map.put("Rol",radioButton.getText().toString());
-                            bd.collection("Users").add(map);
+                            cargarPantalla(email, user, rol);
                         }
                         else {
                             Toast.makeText(getContext(), "Ha ocurrido un error al crear el usuario", Toast.LENGTH_SHORT).show();
@@ -81,6 +80,14 @@ public class SignupTabFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void cargarPantalla(String email, String user, String rol){
+        Intent cargar =  new Intent(getContext(), EditProfileActivity.class);
+        cargar.putExtra("Email", email);
+        cargar.putExtra("Username", user);
+        cargar.putExtra("Rol", rol);
+        startActivity(cargar);
     }
 
     private void conectar(ViewGroup root) {
