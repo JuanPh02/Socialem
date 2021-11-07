@@ -1,5 +1,7 @@
 package com.devjpah.socialem;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,16 +23,21 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginTabFragment extends Fragment {
 
+    FirebaseAuth fAuth = FirebaseAuth.getInstance();
     EditText etEmail, etPassword;
     TextView tvForget;
     Button btnIngresar;
     float v = 0;
+    Dialog dialog;
+    LoadingDialog loadingDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.login_tab_fragment, container, false);
         conectar(root);
+
+        dialog = new Dialog(getContext());
 
         etEmail.setTranslationX(800);
         etPassword.setTranslationX(800);
@@ -59,23 +66,47 @@ public class LoginTabFragment extends Fragment {
             public void onClick(View v) {
                 String email = etEmail.getText().toString();
                 String pass = etPassword.getText().toString();
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(getContext(), "Ingreso Exitoso", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getContext(),MainActivity.class));
-                        }
-                        else {
-                            Toast.makeText(getContext(), "Ha ocurrido un error al ingresar", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                //Toast.makeText(getContext(), "Login", Toast.LENGTH_SHORT).show();
+                if (!email.isEmpty() && !pass.isEmpty()) {
+                    loadingDialog = new LoadingDialog(getActivity());
+                    loadingDialog.startLoadingDialog();
+                    login(email, pass);
+                } else {
+                    Toast.makeText(getContext(),"Debe ingresar email y contraseña", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         return root;
+    }
+
+    private void login(String email, String password) {
+        fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                loadingDialog.dismissDialog();
+                if (task.isSuccessful()){
+                    startActivity(new Intent(getContext(),MainActivity.class));
+                }
+                else {
+                    dialogNoSession();
+                }
+            }
+        });
+    }
+
+    private void dialogNoSession() {
+        Button btnOk;
+        dialog.setContentView(R.layout.no_session);
+        btnOk = dialog.findViewById(R.id.btn_ok);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     private void conectar(ViewGroup root) {

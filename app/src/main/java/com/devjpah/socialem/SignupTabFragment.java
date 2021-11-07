@@ -22,17 +22,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupTabFragment extends Fragment {
 
-    FirebaseFirestore bd = FirebaseFirestore.getInstance();
-    HashMap<String,Object> map = new HashMap<String,Object>();
+    DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference();
+    FirebaseAuth fAuth = FirebaseAuth.getInstance();
     EditText etEmail, etPassword, etUsername;
-    RadioGroup rgRol;
-    RadioButton radioButton;
+    RadioGroup rgSex, rgRol;
+    RadioButton rbSex, rbRol;
     CheckBox cbPolitica;
+    Boolean acceptPolicy;
     Button btnSignup;
+    LoadingDialog loadingDialog;
 
     @Nullable
     @Override
@@ -44,58 +48,94 @@ public class SignupTabFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int radioId = rgRol.getCheckedRadioButtonId();
-                radioButton = root.findViewById(radioId);
-                //Toast.makeText(getContext(), "Selected: " + radioButton.getText(), Toast.LENGTH_SHORT).show();
+                rbRol = root.findViewById(radioId);
+            }
+        });
+
+        rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int radioId = rgSex.getCheckedRadioButtonId();
+                rbSex = root.findViewById(radioId);
             }
         });
 
         cbPolitica.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                String msg = isChecked ? "Checked" : "Not Checked";
-                //Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                acceptPolicy = isChecked;
             }
         });
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = etEmail.getText().toString();
-                String pass = etPassword.getText().toString();
-                String user = etUsername.getText().toString();
-                String rol = radioButton.getText().toString();
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(getContext(), "El usuario ha sido creado", Toast.LENGTH_SHORT).show();
-                            cargarPantalla(email, user, rol);
+                try {
+                    String user = etUsername.getText().toString();
+                    String email = etEmail.getText().toString();
+                    String password = etPassword.getText().toString();
+                    String rol = rbRol.getText().toString();
+                    String sex = rbSex.getText().toString();
+                    if(!user.isEmpty() && !email.isEmpty() && !password.isEmpty() && !rol.isEmpty() && !sex.isEmpty() && acceptPolicy) {
+                        if (password.length() >= 6 ) {
+                            loadingDialog = new LoadingDialog(getActivity());
+                            loadingDialog.startLoadingDialog();
+                            register(user, email, password, rol, sex);
+                        } else {
+                            Toast.makeText(getContext(), "La contraseña debe tener minimo 6 caracteres", Toast.LENGTH_SHORT).show();
                         }
-                        else {
-                            Toast.makeText(getContext(), "Ha ocurrido un error al crear el usuario", Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        Toast.makeText(getContext(), "Llenar todos los campos y aceptar politica", Toast.LENGTH_SHORT).show();
                     }
-                });
+                } catch (Exception exception) {
+                    Toast.makeText(getContext(), "Complete todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         return root;
     }
 
-    private void cargarPantalla(String email, String user, String rol){
-        Intent cargar =  new Intent(getContext(), EditProfileActivity.class);
-        cargar.putExtra("Email", email);
-        cargar.putExtra("Username", user);
-        cargar.putExtra("Rol", rol);
-        startActivity(cargar);
+    private void register(String user, String email, String password, String rol, String sex) {
+        fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                FirebaseUser currentUser = fAuth.getCurrentUser();
+
+                if (task.isSuccessful() && currentUser != null){
+                    HashMap<String,Object> mapUser = new HashMap<String,Object>();
+                    HashMap<String,Object> mapCounters = new HashMap<String,Object>();
+                    mapUser.put("username",user);
+                    mapUser.put("email",email);
+                    mapUser.put("password",password);
+                    mapUser.put("rol",rol);
+                    mapUser.put("sex",sex);
+                    mapCounters.put("follows", 0);
+                    mapCounters.put("stars", 0);
+                    fDatabase.child("Users").child(currentUser.getUid()).child("counters").setValue(mapCounters);
+                    fDatabase.child("Users").child(currentUser.getUid()).updateChildren(mapUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            loadingDialog.dismissDialog();
+                            if (task.isSuccessful()) {
+                                startActivity(new Intent(getContext(), EditProfileActivity.class));
+                                getActivity().finish();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(getContext(), "Error al registar el usuario", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void conectar(ViewGroup root) {
+        etUsername = root.findViewById(R.id.et_user);
         etEmail = root.findViewById(R.id.et_email);
         etPassword = root.findViewById(R.id.et_password);
         rgRol = root.findViewById(R.id.rg_rol);
+        rgSex = root.findViewById(R.id.rg_sex);
         cbPolitica = root.findViewById(R.id.cb_politica);
         btnSignup = root.findViewById(R.id.btn_signup);
-        etUsername = root.findViewById(R.id.et_user);
     }
 }

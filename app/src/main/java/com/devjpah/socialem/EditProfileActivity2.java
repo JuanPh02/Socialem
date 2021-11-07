@@ -1,7 +1,6 @@
 package com.devjpah.socialem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -13,10 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,19 +25,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-
 import java.util.Calendar;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity2 extends AppCompatActivity {
 
     DatabaseReference fDatabase = FirebaseDatabase.getInstance().getReference();
     FirebaseAuth fAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser;
     CircleImageView imgProfile;
-    TextView tvUsername;
+    TextView tvUsername, tvFollows, tvStars;
     TextInputEditText etName, etLastName, etBirthday, etProfession, etJob, etLocation;
     TextInputLayout tlName, tlLastName, tlProfession, tlJob, tlBirthday;
     Button btnEdit;
@@ -49,13 +45,15 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.activity_edit_profile2);
         connectXml();
         currentUser = fAuth.getCurrentUser();
-        loadingDialog = new LoadingDialog(EditProfileActivity.this);
+        loadingDialog = new LoadingDialog(EditProfileActivity2.this);
         if(currentUser != null) {
             loadingDialog.startLoadingDialog();
-            getUsernameAndSex();
+            getUsername();
+            getDataCounters();
+            getDataProfile();
         }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +77,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     tlJob.setError("El campo esta vacio");
                 }
                 if(!name.isEmpty() && !lastName.isEmpty() && !profession.isEmpty() && !job.isEmpty()) {
-                    addInfo();
+                    updateInfo();
                 }
             }
         });
@@ -144,7 +142,7 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void addInfo() {
+    private void updateInfo() {
         HashMap<String,Object> map = new HashMap<String,Object>();
         String name = etName.getText().toString();
         String lastname = etLastName.getText().toString();
@@ -158,32 +156,71 @@ public class EditProfileActivity extends AppCompatActivity {
         map.put("profession", profesion);
         map.put("job", cargo);
         map.put("location", localidad);
-        fDatabase.child("Users").child(currentUser.getUid()).child("profile").setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        fDatabase.child("Users").child(currentUser.getUid()).child("profile").updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    startActivity(new Intent(EditProfileActivity.this, MainActivity.class));
+                    onBackPressed();
                     finish();
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(EditProfileActivity.this, "Ha ocurrido un error inesperado", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void getUsernameAndSex() {
+    private void getUsername() {
         fDatabase.child("Users").child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     String username = snapshot.child("username").getValue().toString();
-                    String sex = snapshot.child("sex").getValue().toString();
-                    int resource = (sex.equals("Hombre")) ? R.drawable.avatar_man : R.drawable.avatar_woman;
-                    imgProfile.setImageResource(resource);
                     tvUsername.setText(username);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getDataCounters() {
+        fDatabase.child("Users").child(currentUser.getUid()).child("counters").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    String follows = snapshot.child("follows").getValue().toString();
+                    String stars = snapshot.child("stars").getValue().toString();
+                    tvFollows.setText(follows);
+                    tvStars.setText(stars);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void getDataProfile() {
+        fDatabase.child("Users").child(currentUser.getUid()).child("profile").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    String birthday = snapshot.child("birthday").exists() ? snapshot.child("birthday").getValue().toString() : "";
+                    String firstName = snapshot.child("firstName").exists() ? snapshot.child("firstName").getValue().toString() : "";
+                    String job = snapshot.child("job").exists() ? snapshot.child("job").getValue().toString() : "";
+                    String lastName = snapshot.child("lastName").exists() ? snapshot.child("lastName").getValue().toString() : "";
+                    String location = snapshot.child("location").exists() ? snapshot.child("location").getValue().toString() : "";
+                    String profession = snapshot.child("profession").exists() ? snapshot.child("profession").getValue().toString() : "";
+
+                    etBirthday.setText(birthday);
+                    etName.setText(firstName);
+                    etJob.setText(job);
+                    etLastName.setText(lastName);
+                    etLocation.setText(location);
+                    etProfession.setText(profession);
                 }
                 loadingDialog.dismissDialog();
             }
@@ -201,7 +238,7 @@ public class EditProfileActivity extends AppCompatActivity {
         int mm = calendario.get(Calendar.MONTH);
         int yy = calendario.get(Calendar.YEAR);
 
-        DatePickerDialog datePicker = new DatePickerDialog(EditProfileActivity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePicker = new DatePickerDialog(EditProfileActivity2.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int dayOfMonth, int monthOfYear, int year) {
 
@@ -219,19 +256,21 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void connectXml() {
-        imgProfile = findViewById(R.id.img_profile_edit);
-        tvUsername = findViewById(R.id.tv_username_edit);
-        etName = findViewById(R.id.et_name);
-        etLastName = findViewById(R.id.et_lastname);
-        etBirthday = findViewById(R.id.et_birthday);
-        etProfession = findViewById(R.id.et_profession);
-        etJob = findViewById(R.id.et_job);
-        etLocation = findViewById(R.id.et_location);
-        tlName = findViewById(R.id.tl_name);
-        tlLastName = findViewById(R.id.tl_lastname);
-        tlBirthday = findViewById(R.id.tl_birthday);
-        tlProfession = findViewById(R.id.tl_profession);
-        tlJob = findViewById(R.id.tl_job);
-        btnEdit = findViewById(R.id.btn_edit_profile);
+        imgProfile = findViewById(R.id.img_profile_edit2);
+        tvUsername = findViewById(R.id.tv_username_ep);
+        tvFollows = findViewById(R.id.tv_follows_ep);
+        tvStars = findViewById(R.id.tv_stars_ep);
+        etName = findViewById(R.id.et_name_ep);
+        etLastName = findViewById(R.id.et_lastname_ep);
+        etBirthday = findViewById(R.id.et_birthday_ep);
+        etProfession = findViewById(R.id.et_profession_ep);
+        etJob = findViewById(R.id.et_job_ep);
+        etLocation = findViewById(R.id.et_location_ep);
+        tlName = findViewById(R.id.tl_name_ep);
+        tlLastName = findViewById(R.id.tl_lastname_ep);
+        tlBirthday = findViewById(R.id.tl_birthday_ep);
+        tlProfession = findViewById(R.id.tl_profession_ep);
+        tlJob = findViewById(R.id.tl_job_ep);
+        btnEdit = findViewById(R.id.btn_edit_profile_ep);
     }
 }
