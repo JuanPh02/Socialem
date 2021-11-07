@@ -4,68 +4,163 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".EditProfileActivity">
+    tools:context=".EditProfileActivity2">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <View
-            android:id="@+id/vw_banner"
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="300dp"
             android:background="@color/primary"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitStart"
             android:src="@drawable/ic_wave"
-            app:layout_constraintTop_toBottomOf="@id/vw_banner" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_profile_edit"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/avatar_woman"
-            android:layout_margin="10dp"
-            app:civ_border_color="@color/gray_transparent"
-            app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/tv_username_ep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/noto_sans"
+            android:letterSpacing=".1"
+            android:textColor="@color/primary_light"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_profile_edit2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/avatar_man"
+            app:civ_border_color="@color/gray_transparent"
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_username_ep"
+            app:layout_constraintVertical_bias="0.15" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintBottom_toBottomOf="@+id/img_profile_edit2"
+            app:layout_constraintEnd_toEndOf="@+id/img_profile_edit2"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/img_profile_edit2"
+            app:layout_constraintTop_toTopOf="@+id/img_profile_edit2"
+            app:layout_constraintVertical_bias="1"
+            app:tint="@color/primary_light" />
+
         <TextView
-            android:id="@+id/tv_username_edit"
+            android:id="@+id/tv_f"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            app:layout_constraintBottom_toBottomOf="@+id/img_profile_edit"
+            android:backgroundTint="@color/primary_light"
+            android:fontFamily="@font/noto_sans"
+            android:text="Follows"
+            android:textColor="@color/primary_light"
+            android:textSize="20sp"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/img_profile_edit"
-            app:layout_constraintTop_toTopOf="@+id/img_profile_edit" />
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_profile_edit2" />
+
+        <ImageView
+            android:id="@+id/img_f"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_liked"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_follows_ep"
+            app:layout_constraintEnd_toStartOf="@+id/tv_follows_ep"
+            app:layout_constraintTop_toBottomOf="@+id/tv_f"
+            app:tint="#D20000" />
+
+        <TextView
+            android:id="@+id/tv_follows_ep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="@color/primary_light"
+            app:layout_constraintEnd_toEndOf="@+id/tv_f"
+            app:layout_constraintStart_toStartOf="@+id/tv_f"
+            app:layout_constraintTop_toBottomOf="@id/tv_f" />
+
+        <TextView
+            android:id="@+id/tv_s"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary_light"
+            android:fontFamily="@font/noto_sans"
+            android:text="Stars"
+            android:textColor="@color/primary_light"
+            android:textSize="20sp"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_profile_edit2" />
+
+        <ImageButton
+            android:id="@+id/imgb_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_star"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_stars_ep"
+            app:layout_constraintEnd_toStartOf="@+id/tv_stars_ep"
+            app:layout_constraintTop_toBottomOf="@+id/tv_s"
+            app:tint="#E7BA00" />
+
+        <TextView
+            android:id="@+id/tv_stars_ep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="@color/primary_light"
+            app:layout_constraintEnd_toEndOf="@+id/tv_s"
+            app:layout_constraintStart_toStartOf="@+id/tv_s"
+            app:layout_constraintTop_toBottomOf="@id/tv_s" />
 
         <TextView
             android:id="@+id/tv_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="200dp"
-            android:text="Completa tu perfil"
+            android:layout_marginTop="100dp"
+            android:text="Edita tu perfil"
             android:textColor="@color/primary_text"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.125"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/img_profile_edit" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <LinearLayout
             android:id="@+id/linearlayout"
@@ -81,7 +176,7 @@
             app:layout_constraintVertical_bias="0.0">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_name"
+                android:id="@+id/tl_name_ep"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +188,7 @@
                 app:startIconDrawable="@drawable/ic_profile">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/et_name_ep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"/>
@@ -101,7 +196,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_lastname"
+                android:id="@+id/tl_lastname_ep"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,7 +206,7 @@
                 app:helperTextTextColor="@android:color/holo_red_dark">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_lastname"
+                    android:id="@+id/et_lastname_ep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"/>
@@ -119,7 +214,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_birthday"
+                android:id="@+id/tl_birthday_ep"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,7 +223,7 @@
                 app:startIconDrawable="@drawable/ic_birthday">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_birthday"
+                    android:id="@+id/et_birthday_ep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false" />
@@ -136,7 +231,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_profession"
+                android:id="@+id/tl_profession_ep"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,7 +243,7 @@
                 app:startIconDrawable="@drawable/ic_profession">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_profession"
+                    android:id="@+id/et_profession_ep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -156,7 +251,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_job"
+                android:id="@+id/tl_job_ep"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -167,7 +262,7 @@
                 app:helperTextTextColor="@android:color/holo_red_dark">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_job"
+                    android:id="@+id/et_job_ep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -183,7 +278,7 @@
                 app:startIconDrawable="@drawable/ic_location">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_location"
+                    android:id="@+id/et_location_ep"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -193,7 +288,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_edit_profile"
+            android:id="@+id/btn_edit_profile_ep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

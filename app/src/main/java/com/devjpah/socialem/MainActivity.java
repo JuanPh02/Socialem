@@ -4,9 +4,11 @@ import androidx.annotation.Dimension;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     FloatingActionButton fabAdd;
     FragmentManager fragmentManager;
+    BlogFragment blogFragment;
+    ProfileFragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,31 +48,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         conectar();
 
+        blogFragment = new BlogFragment();
+        profileFragment = new ProfileFragment();
         if (savedInstanceState == null) {
             animatedBottomBar.selectTabById(R.id.it_blog, true);
             fragmentManager = getSupportFragmentManager();
-            BlogFragment blogFragment = new BlogFragment();
             fragmentManager.beginTransaction().replace(R.id.fragment_container, blogFragment).commit();
         }
         animatedBottomBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             @Override
             public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NotNull AnimatedBottomBar.Tab tab1) {
-                Fragment fragment = null;
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (tab1.getId()) {
                     case R.id.it_blog:
-                        fragment = new BlogFragment();
+                        transaction.replace(R.id.fragment_container, blogFragment);
                         break;
                     case R.id.it_profile:
-                        fragment = new ProfileFragment();
+                        transaction.replace(R.id.fragment_container, profileFragment);
                         break;
                 }
-
-                if(fragment != null) {
-                    fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-                } else {
-                    Log.e(TAG, "Error in creating fragment");
-                }
+                transaction.commit();
             }
 
             @Override
@@ -87,6 +86,28 @@ public class MainActivity extends AppCompatActivity {
 
         //Badges
         animatedBottomBar.setBadgeAtTabIndex(0, new AnimatedBottomBar.Badge("3", getResources().getColor(R.color.accent), getResources().getColor(R.color.primary_light), 20));
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder
+                .setTitle("Salir")
+                .setMessage("¿Está seguro que desea salir?")
+                .setCancelable(false)
+                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        builder.show();
     }
 
     private void conectar() {
