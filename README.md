@@ -9,5 +9,4 @@ Se requiere implementar una Red Social (WEB/MOBILE) que pueda mostrar a todos lo
 
 ## Desarrollada por:
 * [Juan Pablo Arroyave](https://github.com/JuanPh02)
-* [Carlos Marín](https://github.com/Cdev02)
 * [Stiwar Salazar](https://github.com/Tiwar02)
